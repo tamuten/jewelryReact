@@ -1,4 +1,4 @@
-import { Box, AppBar, Toolbar, Stack, IconButton, Typography, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, AppBar, Toolbar, Stack, IconButton, Typography, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper } from '@mui/material';
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -9,15 +9,15 @@ import { ShozokuList } from './Shozoku/ShozokuList';
 const drawerWidth = 240;
 
 function App() {
-    const [drawerOpen, setDrowerOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const handleDrawerOpen = () => {
-        setDrowerOpen(open => !open);
+        setDrawerOpen(open => !open);
     }
     return (
         <>
             <BrowserRouter>
-                <Box sx={{ display: "flex" }}>
+                <Box sx={{ display: "flex", flexGrow: 1 }}>
                     <AppBar position="fixed" sx={{ zIndex: theme => theme.zIndex.drawer + 1 }}>
                         <Toolbar>
                             <Stack direction="row" spacing={3} sx={{ alignItems: "center" }}>
@@ -68,12 +68,14 @@ function App() {
                             </ListItem>
                         </List>
                     </Drawer>
-                    <Box component="main" sx={{ flexGrow: 1 }} >
+                    <Box component="main" sx={{ flexGrow: 1, backgroundColor: "#E7EBF0", height: "100%" }} >
                         <Toolbar />
                         <Box sx={{ p: 3 }}>
+
                             <Routes>
                                 <Route path="/shozoku" element={<ShozokuList />}></Route>
                             </Routes>
+
                         </Box>
                     </Box>
                 </Box>
