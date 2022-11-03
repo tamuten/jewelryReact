@@ -1,15 +1,21 @@
-import { Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
+import { Button, CircularProgress, Divider, Paper, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDataWithJsonAsync } from "../Api";
 import { Shozoku } from "./Shozoku";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+
+const columns: GridColDef[] = [
+    { field: 'id', headerName: 'Id', width: 80 },
+    { field: 'name', headerName: 'Name', width: 200 }
+];
 
 export const ShozokuList = () => {
     const navigate = useNavigate();
     const [shozokuList, setShozokuList] = useState<Shozoku[]>();
 
-    const getListAsync = async () => {
+    const getListAsync = async (): Promise<void> => {
         const list = await getDataWithJsonAsync<Shozoku[]>("/api/shozoku/list");
         if (list) {
             setShozokuList(list);
@@ -18,50 +24,38 @@ export const ShozokuList = () => {
         }
     }
 
-    useEffect(() => {
+    useEffect((): void => {
         getListAsync();
     }, []);
+
+    const onRowClick = ({ row }: GridRowParams<Shozoku>): void => navigate(`/shozoku/${row.id}`);
 
     if (!shozokuList) return <CircularProgress />;
 
     return (
         <>
-            <Paper elevation={0} sx={{ pl: 2, pr: 2, pb: 2 }} >
-                <Toolbar sx={{ justifyContent: "space-between", paddingLeft: '0 !important', paddingRight: '0 !important' }} >
-                    <Typography variant="h6" >所属一覧</Typography>
-                    <Button variant="contained" color="success" disableElevation
-                        startIcon={<AddCircleOutlineIcon />}>
-                        追加
-                    </Button>
+            <Toolbar sx={{ justifyContent: "space-between", paddingLeft: '0 !important', paddingRight: '0 !important' }} >
+                <Typography variant="h5" >所属一覧</Typography>
+                <Button variant="contained" color="primary" disableElevation
+                    startIcon={<AddCircleOutlineIcon />}>
+                    追加
+                </Button>
 
-                </Toolbar>
-
-
-                <TableContainer >
-                    <Table size="small">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Id</TableCell>
-                                <TableCell>名前</TableCell>
-                                <TableCell></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {shozokuList.map((s, index) => (
-                                <TableRow key={index} hover>
-                                    <TableCell>{s.id}</TableCell>
-                                    <TableCell>{s.name}</TableCell>
-                                    <TableCell>
-                                        <Button variant="outlined" size="small"
-                                            onClick={() => navigate(`/shozoku/${s.id}`)} >
-                                            編集
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+            </Toolbar>
+            <Divider />
+            <Paper elevation={0} sx={{ mt: 2, height: 400 }} >
+                <DataGrid
+                    density="compact"
+                    rows={shozokuList}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    disableSelectionOnClick
+                    disableColumnMenu
+                    disableColumnSelector
+                    experimentalFeatures={{ newEditingApi: true }}
+                    onRowClick={onRowClick}
+                />
             </Paper>
         </>
     );
