@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jewlry.app.mapper.TantoshaMapper">
+    <resultMap id="tantoshaList" type="Tantosha">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <association property="shozoku" column="shozoku_id" javaType="Shozoku">
+            <result property="id" column="shozoku_id" />
+            <result property="name" column="shozoku_name" />
+        </association>
+    </resultMap>
+    <select id="getList" resultMap="tantoshaList">
+    SELECT 
+        ta.id,
+        ta.name,
+        sho.id as shozoku_id,
+        sho.name as shozoku_name
+    FROM 
+        tantosha ta
+        INNER JOIN shozoku sho
+            ON ta.shozoku_id = sho.id
+    ORDER BY id
+</select>
+</mapper>
