@@ -1,10 +1,10 @@
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Button, CircularProgress, Divider, Paper, Toolbar, Typography } from "@mui/material";
+import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDataWithJsonAsync } from "../Api";
-import { Shozoku } from "./Shozoku";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { Shozoku } from "../Models/Shozoku";
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id', width: 80 },
@@ -19,8 +19,6 @@ export const ShozokuList: FC = () => {
         const list = await getDataWithJsonAsync<Shozoku[]>("/api/shozoku/list");
         if (list) {
             setShozokuList(list);
-        } else {
-
         }
     }
 
@@ -37,7 +35,7 @@ export const ShozokuList: FC = () => {
             <Toolbar sx={{ justifyContent: "space-between", paddingLeft: '0 !important', paddingRight: '0 !important' }} >
                 <Typography variant="h6" >所属一覧</Typography>
                 <Button variant="contained" color="primary" disableElevation
-                    startIcon={<AddCircleOutlineIcon />}>
+                    startIcon={<AddCircleOutlineIcon />} onClick={() => navigate("/shozoku/add")}>
                     追加
                 </Button>
             </Toolbar>
