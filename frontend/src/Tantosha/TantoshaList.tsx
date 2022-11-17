@@ -1,14 +1,21 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Button, CircularProgress, Divider, Paper, Toolbar, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowParams, GridValueFormatterParams } from "@mui/x-data-grid";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getDataWithJsonAsync } from "../Api";
+import { Shozoku } from '../Models/Shozoku';
 import { Tantosha } from "../Models/Tantosha";
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id', width: 80 },
-    { field: 'name', headerName: '名前', width: 200 }
+    { field: 'name', headerName: '名前', width: 200 },
+    {
+        field: 'shozoku',
+        headerName: '所属',
+        width: 200,
+        valueFormatter: ({ value }: GridValueFormatterParams<Shozoku>) => value.name
+    }
 ];
 
 export const TantoshaList: FC = () => {
@@ -26,7 +33,9 @@ export const TantoshaList: FC = () => {
         getListAsync();
     }, []);
 
-    const onRowClick = ({ row }: GridRowParams<Tantosha>): void => navigate(`/tantosha/${row.id}`);
+    const onRowClick = ({ row }: GridRowParams<Tantosha>): void => {
+        navigate(`/tantosha/${row.id}`);
+    }
 
     if (!tantoshaList) return <CircularProgress />;
 
