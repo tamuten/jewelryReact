@@ -1,5 +1,11 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Button, CircularProgress, Divider, Paper, Toolbar, Typography } from "@mui/material";
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Divider from '@mui/material/Divider';
+import Paper from '@mui/material/Paper';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

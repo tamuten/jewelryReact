@@ -1,11 +1,17 @@
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Button, CircularProgress, Divider, Paper, Toolbar, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridRowParams, GridValueFormatterParams } from "@mui/x-data-grid";
-import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getDataWithJsonAsync } from "../Api";
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Divider from '@mui/material/Divider';
+import Paper from '@mui/material/Paper';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+
+import { DataGrid, GridColDef, GridRowParams, GridValueFormatterParams } from '@mui/x-data-grid';
+import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getDataWithJsonAsync } from '../Api';
 import { Shozoku } from '../Models/Shozoku';
-import { Tantosha } from "../Models/Tantosha";
+import { Tantosha } from '../Models/Tantosha';
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'Id', width: 80 },
@@ -14,8 +20,8 @@ const columns: GridColDef[] = [
         field: 'shozoku',
         headerName: '所属',
         width: 200,
-        valueFormatter: ({ value }: GridValueFormatterParams<Shozoku>) => value.name
-    }
+        valueFormatter: ({ value }: GridValueFormatterParams<Shozoku>) => value.name,
+    },
 ];
 
 export const TantoshaList: FC = () => {
@@ -23,11 +29,11 @@ export const TantoshaList: FC = () => {
     const [tantoshaList, setTantoshaList] = useState<Tantosha[]>();
 
     const getListAsync = async (): Promise<void> => {
-        const list = await getDataWithJsonAsync<Tantosha[]>("/api/tantosha/list");
+        const list = await getDataWithJsonAsync<Tantosha[]>('/api/tantosha/list');
         if (list) {
             setTantoshaList(list);
         }
-    }
+    };
 
     useEffect((): void => {
         getListAsync();
@@ -35,21 +41,31 @@ export const TantoshaList: FC = () => {
 
     const onRowClick = ({ row }: GridRowParams<Tantosha>): void => {
         navigate(`/tantosha/${row.id}`);
-    }
+    };
 
     if (!tantoshaList) return <CircularProgress />;
 
     return (
         <>
-            <Toolbar sx={{ justifyContent: "space-between", paddingLeft: '0 !important', paddingRight: '0 !important' }} >
-                <Typography variant="h6" >担当者一覧</Typography>
-                <Button variant="contained" color="primary" disableElevation
-                    startIcon={<AddCircleOutlineIcon />}>
+            <Toolbar
+                sx={{
+                    justifyContent: 'space-between',
+                    paddingLeft: '0 !important',
+                    paddingRight: '0 !important',
+                }}
+            >
+                <Typography variant="h6">担当者一覧</Typography>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    disableElevation
+                    startIcon={<AddCircleOutlineIcon />}
+                >
                     追加
                 </Button>
             </Toolbar>
             <Divider />
-            <Paper elevation={0} sx={{ mt: 2, height: 400 }} >
+            <Paper elevation={0} sx={{ my: 2, flexGrow: 1 }}>
                 <DataGrid
                     density="compact"
                     rows={tantoshaList}
@@ -64,4 +80,4 @@ export const TantoshaList: FC = () => {
             </Paper>
         </>
     );
-}
+};

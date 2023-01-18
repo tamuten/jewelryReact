@@ -1,4 +1,4 @@
-import { Box, Toolbar, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+
 import { useCallback, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
@@ -7,6 +7,14 @@ import { ShozokuList } from './Shozoku/ShozokuList';
 import { TantoshaList } from './Tantosha/TantoshaList';
 import { ShozokuRegister } from './Shozoku/ShozokuRegister';
 import { NavigationBar } from './NavigationBar';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
 
 const drawerWidth = 240;
 
@@ -38,7 +46,7 @@ function App() {
                     >
                         <Toolbar />
                         <List dense>
-                            <Link to="/shozoku" style={{ textDecoration: "none" }}>
+                            <Link to="/shozoku" style={{ textDecoration: "none", color: "inherit" }}>
                                 <ListItem disablePadding>
                                     <ListItemButton>
                                         <ListItemIcon>
@@ -48,7 +56,7 @@ function App() {
                                     </ListItemButton>
                                 </ListItem>
                             </Link>
-                            <Link to="/tantosha" style={{ textDecoration: "none" }}>
+                            <Link to="/tantosha" style={{ textDecoration: "none", color: "inherit" }}>
                                 <ListItem disablePadding>
                                     <ListItemButton>
                                         <ListItemIcon>
@@ -60,9 +68,9 @@ function App() {
                             </Link>
                         </List>
                     </Drawer>
-                    <Box component="main" sx={{ flexGrow: 1, backgroundColor: "#E7EBF0", height: "100%" }} >
+                    <Box component="main" sx={{ flexGrow: 1, backgroundColor: "#E7EBF0", display: "flex", flexDirection: "column" }} >
                         <Toolbar />
-                        <Box sx={{ px: 3, py: 1, boxSizing: "border-box", height: "calc(100% - 64px)" }}>
+                        <Box sx={{ px: 3, py: 1, boxSizing: "border-box", flexGrow: 1, display: "flex", flexDirection: "column" }}>
 
                             <Routes>
                                 <Route path="/shozoku" element={<ShozokuList />}></Route>
