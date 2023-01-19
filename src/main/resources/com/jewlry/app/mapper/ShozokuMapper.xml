@@ -4,4 +4,16 @@
     <select id="getList" resultType="Shozoku">
     SELECT * FROM shozoku ORDER BY id
 </select>
+<insert id="create" parameterType="Shozoku">
+    INSERT INTO shozoku 
+    (
+        name
+    )
+    VALUES
+    (
+        #{name}
+    )
+
+    
+</insert>
 </mapper>

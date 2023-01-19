@@ -9,11 +9,17 @@ import { FC } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 
 import { useNavigate } from 'react-router-dom';
+import { postDataWithJsonAsync } from '../Api';
 import { Shozoku } from '../Models/Shozoku';
 
 export const ShozokuRegister: FC = () => {
     const navigate = useNavigate();
     const { control, handleSubmit } = useForm<Shozoku>();
+
+    const onSubmit = async (data: Shozoku) =>
+    {
+        await postDataWithJsonAsync("/api/shozoku/create", data);
+    }
 
     return (
         <>
@@ -28,7 +34,7 @@ export const ShozokuRegister: FC = () => {
             </Toolbar>
             <Divider />
             <Paper elevation={0} sx={{ mt: 2, p: 2 }}>
-                <Stack>
+                <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={3}>
                     <Stack sx={{ width: 200 }}>
                         <Controller
                             name="id"
@@ -60,12 +66,21 @@ export const ShozokuRegister: FC = () => {
                             )}
                         />
                     </Stack>
-                    <Stack direction="row">
+                    <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                         <Button
+                            size="small"
+                            variant="outlined"
+                            disableElevation
+                            onClick={() => alert("戻る")}
+                        >
+                            戻る
+                        </Button>
+                        <Button
+                            size="small"
                             variant="contained"
                             color="primary"
                             disableElevation
-                            onClick={() => {}}
+                            type="submit"
                         >
                             登録
                         </Button>
